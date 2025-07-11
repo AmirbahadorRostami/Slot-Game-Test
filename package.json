@@ -1,0 +1,65 @@
+{
+  "name": "slot-machine-game",
+  "version": "1.0.0",
+  "description": "A 5x3 slot machine game built with PIXI.js and modern development tools",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vite build --mode test && node tests/test-runner-node.js",
+    "test:browser": "vite dev --open /test.html",
+    "test:unit": "vite build --mode test && node tests/unit-runner.js",
+    "test:integration": "vite build --mode test && node tests/integration-runner.js",
+    "lint": "eslint src tests --ext .js",
+    "lint:fix": "eslint src tests --ext .js --fix",
+    "format": "prettier --write src tests",
+    "format:check": "prettier --check src tests",
+    "clean": "rimraf dist",
+    "build:prod": "npm run clean && vite build --mode production",
+    "build:dev": "npm run clean && vite build --mode development",
+    "serve": "npm run build && npm run preview",
+    "type-check": "tsc --noEmit",
+    "analyze": "vite-bundle-analyzer dist"
+  },
+  "keywords": [
+    "game",
+    "slot-machine",
+    "pixi.js",
+    "javascript",
+    "vite",
+    "performance"
+  ],
+  "author": "Slot Machine Game Developer",
+  "license": "MIT",
+  "dependencies": {
+    "pixi.js": "^7.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "prettier": "^3.1.1",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vite-bundle-analyzer": "^0.7.0",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/slot-game-test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/slot-game-test/issues"
+  },
+  "homepage": "https://github.com/your-username/slot-game-test#readme"
+}

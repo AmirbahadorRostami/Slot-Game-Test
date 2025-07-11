@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine Game - Test Suite</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #00ff00;
+            line-height: 1.4;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff00;
+        }
+        
+        .header p {
+            margin: 10px 0;
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #004400, #00aa00);
+            border: 2px solid #00ff00;
+            color: #ffffff;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+        
+        .btn:hover {
+            background: linear-gradient(45deg, #006600, #00cc00);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn.danger {
+            background: linear-gradient(45deg, #440000, #aa0000);
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        .btn.danger:hover {
+            background: linear-gradient(45deg, #660000, #cc0000);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+        }
+        
+        .suite-selector {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .suite-selector select {
+            background: #000000;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 16px;
+            font-family: inherit;
+            font-size: 14px;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+        
+        .output {
+            background: #000000;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 400px;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 70vh;
+            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+        
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .status.running {
+            color: #ffaa00;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status.passed {
+            color: #00ff00;
+        }
+        
+        .status.failed {
+            color: #ff0000;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        .test-info {
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #00ff00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .test-info h3 {
+            margin: 0 0 10px 0;
+            color: #00ff00;
+        }
+        
+        .test-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #004400;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 Slot Machine Test Suite</h1>
+        <p>Comprehensive Testing Framework for Game Services & Integration</p>
+    </div>
+
+    <div class="test-info">
+        <h3>🎯 Available Test Suites:</h3>
+        <ul>
+            <li><strong>WinningLogic:</strong> Pay line calculations, win detection, payout validation</li>
+            <li><strong>ReelManager:</strong> Reel state management, symbol positioning, spin mechanics</li>
+            <li><strong>AssetLoader:</strong> Texture loading, progress tracking, error handling</li>
+            <li><strong>SpritePool:</strong> Object pooling, memory optimization, sprite lifecycle</li>
+            <li><strong>PerformanceMonitor:</strong> FPS tracking, memory usage, performance metrics</li>
+            <li><strong>GameFlow Integration:</strong> End-to-end game flow, service integration</li>
+        </ul>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="runAllTests()">🚀 Run All Tests</button>
+        <button class="btn" onclick="listTestSuites()">📋 List Test Suites</button>
+        <button class="btn" onclick="exportTestReport()">📄 Export Report</button>
+        <button class="btn danger" onclick="clearOutput()">🧹 Clear Output</button>
+    </div>
+
+    <div class="suite-selector">
+        <label for="suiteSelect">Run Specific Suite:</label>
+        <select id="suiteSelect">
+            <option value="">Select a test suite...</option>
+            <option value="WinningLogic">WinningLogic</option>
+            <option value="ReelManager">ReelManager</option>
+            <option value="AssetLoader">AssetLoader</option>
+            <option value="SpritePool">SpritePool</option>
+            <option value="PerformanceMonitor">PerformanceMonitor</option>
+            <option value="GameFlow Integration">GameFlow Integration</option>
+        </select>
+        <button class="btn" onclick="runSelectedSuite()">▶️ Run Selected</button>
+    </div>
+
+    <div class="status" id="status">Ready to run tests</div>
+    
+    <div class="output" id="output">
+Welcome to the Slot Machine Test Suite! 🎰
+
+This comprehensive testing framework validates all game services and their integration.
+
+Click "🚀 Run All Tests" to execute the complete test suite, or select a specific 
+suite from the dropdown to run targeted tests.
+
+Test Coverage:
+• Unit Tests: Individual service validation
+• Integration Tests: Cross-service functionality
+• Performance Tests: Optimization verification
+• Error Handling: Edge case validation
+
+Ready when you are! 🧪
+    </div>
+
+    <div class="footer">
+        <p>🎰 Slot Machine Game Testing Framework | Built with Custom Test Runner</p>
+    </div>
+
+    <script type="module">
+        import { testRunner } from './tests/TestRunner.js';
+        
+        let originalConsoleLog = console.log;
+        let originalConsoleError = console.error;
+        let originalConsoleWarn = console.warn;
+        let originalConsoleGroup = console.group;
+        let originalConsoleGroupEnd = console.groupEnd;
+        
+        function captureConsoleOutput() {
+            const output = document.getElementById('output');
+            
+            console.log = (...args) => {
+                output.textContent += args.join(' ') + '\n';
+                output.scrollTop = output.scrollHeight;
+                originalConsoleLog(...args);
+            };
+            
+            console.error = (...args) => {
+                output.textContent += '❌ ERROR: ' + args.join(' ') + '\n';
+                output.scrollTop = output.scrollHeight;
+                originalConsoleError(...args);
+            };
+            
+            console.warn = (...args) => {
+                output.textContent += '⚠️ WARNING: ' + args.join(' ') + '\n';
+                output.scrollTop = output.scrollHeight;
+                originalConsoleWarn(...args);
+            };
+            
+            console.group = (...args) => {
+                if (args.length > 0) {
+                    output.textContent += '\n' + args.join(' ') + '\n';
+                }
+                output.scrollTop = output.scrollHeight;
+                originalConsoleGroup(...args);
+            };
+            
+            console.groupEnd = () => {
+                originalConsoleGroupEnd();
+            };
+        }
+        
+        function restoreConsoleOutput() {
+            console.log = originalConsoleLog;
+            console.error = originalConsoleError;
+            console.warn = originalConsoleWarn;
+            console.group = originalConsoleGroup;
+            console.groupEnd = originalConsoleGroupEnd;
+        }
+        
+        function setStatus(message, type = '') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+        
+        window.runAllTests = async () => {
+            setStatus('🏃‍♂️ Running all tests...', 'running');
+            captureConsoleOutput();
+            
+            try {
+                const results = await testRunner.runAllTests();
+                
+                if (results.failed === 0) {
+                    setStatus(`✅ All tests passed! (${results.passed}/${results.total})`, 'passed');
+                } else {
+                    setStatus(`❌ ${results.failed} test(s) failed (${results.passed}/${results.total} passed)`, 'failed');
+                }
+            } catch (error) {
+                setStatus('💥 Test execution failed', 'failed');
+                console.error('Test execution error:', error);
+            } finally {
+                restoreConsoleOutput();
+            }
+        };
+        
+        window.runSelectedSuite = async () => {
+            const select = document.getElementById('suiteSelect');
+            const suiteName = select.value;
+            
+            if (!suiteName) {
+                alert('Please select a test suite first!');
+                return;
+            }
+            
+            setStatus(`🎯 Running ${suiteName} tests...`, 'running');
+            captureConsoleOutput();
+            
+            try {
+                const results = await testRunner.runSpecificSuite(suiteName);
+                
+                if (results && results.failed === 0) {
+                    setStatus(`✅ ${suiteName} tests passed! (${results.passed}/${results.total})`, 'passed');
+                } else if (results) {
+                    setStatus(`❌ ${suiteName}: ${results.failed} test(s) failed`, 'failed');
+                } else {
+                    setStatus(`💥 Failed to run ${suiteName} tests`, 'failed');
+                }
+            } catch (error) {
+                setStatus('💥 Test execution failed', 'failed');
+                console.error('Test execution error:', error);
+            } finally {
+                restoreConsoleOutput();
+            }
+        };
+        
+        window.listTestSuites = () => {
+            captureConsoleOutput();
+            testRunner.listAvailableSuites();
+            restoreConsoleOutput();
+            setStatus('📋 Test suites listed', '');
+        };
+        
+        window.exportTestReport = () => {
+            testRunner.exportTestReport();
+            setStatus('📄 Test report exported', '');
+        };
+        
+        window.clearOutput = () => {
+            document.getElementById('output').textContent = 'Output cleared. Ready for new test run! 🧪\n';
+            setStatus('Ready to run tests', '');
+        };
+        
+        // Make testRunner available globally
+        window.testRunner = testRunner;
+        
+        console.log('🧪 Test interface loaded successfully!');
+    </script>
+</body>
+</html>

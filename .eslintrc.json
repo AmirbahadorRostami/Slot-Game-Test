@@ -1,0 +1,118 @@
+{
+  "env": {
+    "browser": true,
+    "es2022": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
+  },
+  "plugins": [
+    "import"
+  ],
+  "rules": {
+    // Code Quality
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }],
+    "no-debugger": "warn",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "no-undef": "error",
+    "prefer-const": "warn",
+    "no-var": "error",
+    
+    // Import Rules
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "never"
+      }
+    ],
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
+    
+    // ES6+ Features
+    "arrow-spacing": "warn",
+    "template-curly-spacing": "warn",
+    
+    // Code Style (handled by Prettier, but keeping logical rules)
+    "prefer-template": "warn",
+    "object-shorthand": "warn",
+    "no-duplicate-imports": "error",
+    
+    // Performance
+    "no-inner-declarations": "error",
+    "no-loop-func": "warn",
+    
+    // Best Practices
+    "eqeqeq": ["error", "always"],
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error",
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-throw-literal": "error",
+    "no-void": "error",
+    "radix": "error",
+    "yoda": ["error", "never"],
+    
+    // Error Prevention
+    "no-await-in-loop": "warn",
+    "no-constant-condition": ["error", { "checkLoops": false }],
+    "no-promise-executor-return": "error",
+    "require-atomic-updates": "error"
+  },
+  "overrides": [
+    {
+      "files": ["tests/**/*"],
+      "env": {
+        "jest": false
+      },
+      "rules": {
+        "no-console": "off",
+        "no-unused-vars": "off"
+      }
+    },
+    {
+      "files": ["*.config.js", "vite.config.js"],
+      "rules": {
+        "no-console": "off",
+        "no-unused-vars": "off"
+      }
+    },
+    {
+      "files": ["src/**/*.js"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ],
+  "globals": {
+    "PIXI": "readonly",
+    "__DEV__": "readonly",
+    "__PROD__": "readonly",
+    "__TEST__": "readonly",
+    "__VERSION__": "readonly",
+    "__BUILD_TIME__": "readonly"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".json"]
+      }
+    }
+  },
+  "ignorePatterns": [
+    "dist/",
+    "node_modules/",
+    "coverage/",
+    "*.min.js",
+    "assets/"
+  ]
+}
