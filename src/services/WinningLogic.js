@@ -46,7 +46,7 @@ export class WinningLogic {
                     payLine: payLineNumber,
                     symbol: firstSymbol,
                     count: matchCount,
-                    payout: payout
+                    payout
                 };
             }
         }

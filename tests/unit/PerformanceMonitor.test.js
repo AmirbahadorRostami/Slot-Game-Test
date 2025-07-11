@@ -196,7 +196,7 @@ describe('PerformanceMonitor', () => {
 
     describe('logMetrics', () => {
         it('should log formatted metrics to console', () => {
-            let loggedData = [];
+            const loggedData = [];
             console.log = (data) => { loggedData.push(data); };
             console.group = () => {};
             console.groupEnd = () => {};

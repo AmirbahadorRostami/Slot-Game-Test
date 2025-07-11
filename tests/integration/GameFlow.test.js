@@ -113,7 +113,7 @@ describe('Game Flow Integration Tests', () => {
                 
                 spinResults.push({
                     positions: reelManager.getAllReelPositions(),
-                    symbols: symbols,
+                    symbols,
                     wins: winResult.totalWins
                 });
                 

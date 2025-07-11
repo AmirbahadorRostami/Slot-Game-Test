@@ -51,7 +51,7 @@ export class RenderOptimizer {
 
     createRenderGroup(groupName, container, options = {}) {
         const group = {
-            container: container,
+            container,
             sprites: new Set(),
             lastUpdate: 0,
             updateFrequency: options.updateFrequency || 1,

@@ -66,21 +66,21 @@ export class MockPIXI {
     static createMockContainer() {
         return {
             children: [],
-            addChild: function(child) { 
+            addChild(child) { 
                 this.children.push(child); 
                 child.parent = this;
             },
-            removeChild: function(child) { 
+            removeChild(child) { 
                 const index = this.children.indexOf(child);
                 if (index > -1) {
                     this.children.splice(index, 1);
                     child.parent = null;
                 }
             },
-            getChildIndex: function(child) {
+            getChildIndex(child) {
                 return this.children.indexOf(child);
             },
-            setChildIndex: function(child, index) {
+            setChildIndex(child, index) {
                 this.removeChild(child);
                 this.children.splice(index, 0, child);
             },
@@ -96,7 +96,7 @@ export class MockPIXI {
 
     static createMockText(text = 'Mock Text') {
         return {
-            text: text,
+            text,
             x: 0,
             y: 0,
             anchor: { set: () => {} },
@@ -115,7 +115,7 @@ export class MockPIXI {
             y: 0,
             width: 0,
             height: 0,
-            intersects: function(other) {
+            intersects(other) {
                 return !(this.x > other.x + other.width || 
                         this.x + this.width < other.x || 
                         this.y > other.y + other.height || 
@@ -127,11 +127,11 @@ export class MockPIXI {
     static setupGlobalMocks() {
         if (typeof global !== 'undefined') {
             global.PIXI = {
-                Application: function(options) { return MockPIXI.createMockApp(); },
-                Sprite: function(texture) { return MockPIXI.createMockSprite(texture); },
-                Container: function() { return MockPIXI.createMockContainer(); },
-                Text: function(text, style) { return MockPIXI.createMockText(text); },
-                Rectangle: function() { return MockPIXI.createMockRectangle(); },
+                Application(options) { return MockPIXI.createMockApp(); },
+                Sprite(texture) { return MockPIXI.createMockSprite(texture); },
+                Container() { return MockPIXI.createMockContainer(); },
+                Text(text, style) { return MockPIXI.createMockText(text); },
+                Rectangle() { return MockPIXI.createMockRectangle(); },
                 Texture: {
                     from: async (url) => MockPIXI.createMockTexture(url),
                     EMPTY: MockPIXI.createMockTexture('empty')

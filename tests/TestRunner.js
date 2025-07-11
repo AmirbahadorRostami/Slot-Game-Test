@@ -1,6 +1,5 @@
 import { TestFramework } from './TestFramework.js';
 import { setupTestEnvironment } from './utils/TestMocks.js';
-
 import { framework as winningLogicTests } from './unit/WinningLogic.test.js';
 import { framework as reelManagerTests } from './unit/ReelManager.test.js';
 import { framework as assetLoaderTests } from './unit/AssetLoader.test.js';
@@ -62,7 +61,7 @@ export class TestRunner {
     }
 
     printFinalResults() {
-        console.log('\n' + '='.repeat(80));
+        console.log(`\n${'='.repeat(80)}`);
         console.log('🏁 FINAL TEST RESULTS');
         console.log('='.repeat(80));
         
@@ -86,7 +85,7 @@ export class TestRunner {
             console.log('🔧 Please review and fix the failing tests.');
         }
 
-        console.log('\n' + '='.repeat(80));
+        console.log(`\n${'='.repeat(80)}`);
     }
 
     async runSpecificSuite(suiteName) {

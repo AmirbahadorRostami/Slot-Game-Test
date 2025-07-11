@@ -221,7 +221,7 @@ export class TestFramework {
     }
 
     printResults(duration) {
-        console.log('\n' + '='.repeat(60));
+        console.log(`\n${'='.repeat(60)}`);
         console.log('🧪 TEST RESULTS');
         console.log('='.repeat(60));
         
@@ -243,7 +243,7 @@ export class TestFramework {
             console.log(`   ${suiteName}: ${suite.results.passed}/${suite.results.total} (${suitePassRate}%)`);
         }
 
-        console.log('\n' + '='.repeat(60));
+        console.log(`\n${'='.repeat(60)}`);
         
         if (this.results.failed === 0) {
             console.log('🎉 All tests passed!');

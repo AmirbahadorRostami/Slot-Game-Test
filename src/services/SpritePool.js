@@ -17,7 +17,7 @@ export class SpritePool {
 
         const pool = {
             available: [],
-            createFunction: createFunction,
+            createFunction,
             totalCreated: 0,
             maxSize: initialSize * 2
         };
