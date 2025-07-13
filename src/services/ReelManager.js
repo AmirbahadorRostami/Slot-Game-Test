@@ -2,10 +2,13 @@ import { GameConfig } from '../config/GameConfig.js';
 
 export class ReelManager {
     constructor() {
-        this.reelBands = GameConfig.REELS.BANDS;
-        this.reelPositions = [...GameConfig.REELS.INITIAL_POSITIONS];
-        this.columns = GameConfig.REELS.COLUMNS;
-        this.rows = GameConfig.REELS.ROWS;
+        // Use global config for testing, fall back to imported config
+        const config = globalThis.GameConfig || GameConfig;
+        
+        this.reelBands = config.REELS.BANDS;
+        this.reelPositions = [...config.REELS.INITIAL_POSITIONS];
+        this.columns = config.REELS.COLUMNS;
+        this.rows = config.REELS.ROWS;
     }
 
     spin() {

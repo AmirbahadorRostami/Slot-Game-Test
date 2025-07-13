@@ -128,7 +128,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: {
         '@': resolve(__dirname, 'src'),
-        '@config': resolve(__dirname, 'config'),
+        '@config': resolve(__dirname, 'src/config'),
         '@services': resolve(__dirname, 'src/services'),
         '@tests': resolve(__dirname, 'tests'),
         '@assets': resolve(__dirname, 'assets')

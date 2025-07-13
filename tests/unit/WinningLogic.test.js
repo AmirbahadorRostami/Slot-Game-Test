@@ -1,5 +1,5 @@
 import { TestFramework, Assert } from '../TestFramework.js';
-import { WinningLogic } from '../../services/WinningLogic.js';
+import { WinningLogic } from '../../src/services/WinningLogic.js';
 import { TestData, setupTestEnvironment } from '../utils/TestMocks.js';
 
 setupTestEnvironment();

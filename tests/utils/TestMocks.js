@@ -109,17 +109,27 @@ export class MockPIXI {
         };
     }
 
-    static createMockRectangle() {
+    static createMockRectangle(x = 0, y = 0, width = 100, height = 100) {
         return {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
+            x,
+            y,
+            width,
+            height,
+            contains(px, py) {
+                return px >= this.x && px <= this.x + this.width &&
+                       py >= this.y && py <= this.y + this.height;
+            },
             intersects(other) {
                 return !(this.x > other.x + other.width || 
                         this.x + this.width < other.x || 
                         this.y > other.y + other.height || 
                         this.y + this.height < other.y);
+            },
+            clone() {
+                return MockPIXI.createMockRectangle(this.x, this.y, this.width, this.height);
+            },
+            toString() {
+                return `Rectangle(${this.x}, ${this.y}, ${this.width}, ${this.height})`;
             }
         };
     }
@@ -131,7 +141,9 @@ export class MockPIXI {
                 Sprite(texture) { return MockPIXI.createMockSprite(texture); },
                 Container() { return MockPIXI.createMockContainer(); },
                 Text(text, style) { return MockPIXI.createMockText(text); },
-                Rectangle() { return MockPIXI.createMockRectangle(); },
+                Rectangle: function(x = 0, y = 0, width = 100, height = 100) { 
+                    return MockPIXI.createMockRectangle(x, y, width, height); 
+                },
                 Texture: {
                     from: async (url) => MockPIXI.createMockTexture(url),
                     EMPTY: MockPIXI.createMockTexture('empty')

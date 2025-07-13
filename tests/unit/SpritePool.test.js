@@ -1,5 +1,5 @@
 import { TestFramework, Assert } from '../TestFramework.js';
-import { SpritePool } from '../../services/SpritePool.js';
+import { SpritePool } from '../../src/services/SpritePool.js';
 import { setupTestEnvironment, MockPIXI } from '../utils/TestMocks.js';
 
 setupTestEnvironment();

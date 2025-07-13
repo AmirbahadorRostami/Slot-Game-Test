@@ -1,5 +1,5 @@
 import { TestFramework, Assert } from '../TestFramework.js';
-import { PerformanceMonitor } from '../../services/PerformanceMonitor.js';
+import { PerformanceMonitor } from '../../src/services/PerformanceMonitor.js';
 import { setupTestEnvironment } from '../utils/TestMocks.js';
 
 setupTestEnvironment();

@@ -15,25 +15,36 @@ export class TestFramework {
             beforeAll: [],
             afterAll: []
         };
+        
+        // Bind methods to preserve context when destructured
+        this.describe = this.describe.bind(this);
+        this.it = this.it.bind(this);
+        this.beforeEach = this.beforeEach.bind(this);
+        this.afterEach = this.afterEach.bind(this);
+        this.beforeAll = this.beforeAll.bind(this);
+        this.afterAll = this.afterAll.bind(this);
     }
 
     describe(suiteName, callback) {
         const previousSuite = this.currentSuite;
+        
+        // Create new suite with inherited hooks from parent
         this.currentSuite = {
             name: suiteName,
             tests: [],
             hooks: {
-                beforeEach: [],
-                afterEach: [],
-                beforeAll: [],
-                afterAll: []
+                beforeEach: previousSuite ? [...previousSuite.hooks.beforeEach] : [],
+                afterEach: previousSuite ? [...previousSuite.hooks.afterEach] : [],
+                beforeAll: previousSuite ? [...previousSuite.hooks.beforeAll] : [],
+                afterAll: previousSuite ? [...previousSuite.hooks.afterAll] : []
             },
             results: {
                 passed: 0,
                 failed: 0,
                 skipped: 0,
                 total: 0
-            }
+            },
+            parent: previousSuite
         };
 
         this.suites.set(suiteName, this.currentSuite);
@@ -251,12 +262,98 @@ export class TestFramework {
             console.log(`💥 ${this.results.failed} test(s) failed.`);
         }
     }
+
+    async run() {
+        const startTime = Date.now();
+        
+        // Run global beforeAll hooks first
+        await this.runHooks(this.hooks.beforeAll);
+        
+        for (const [suiteName, suite] of this.suites) {
+            console.log(`\n🧪 Running suite: ${suiteName}`);
+            
+            try {
+                // Run suite beforeAll hooks
+                await this.runHooks(suite.hooks.beforeAll);
+                
+                // Run tests in the suite
+                for (const test of suite.tests) {
+                    // Run global beforeEach hooks first, then suite-specific ones
+                    await this.runHooks(this.hooks.beforeEach);
+                    await this.runHooks(suite.hooks.beforeEach);
+                    
+                    const result = await this.runSingleTest(test);
+                    test.result = result;  // Store result in test object
+                    
+                    if (result.passed) {
+                        suite.results.passed++;
+                        this.results.passed++;
+                        console.log(`  ✅ ${test.name}`);
+                    } else {
+                        suite.results.failed++;
+                        this.results.failed++;
+                        console.log(`  ❌ ${test.name}: ${result.error}`);
+                    }
+                    
+                    suite.results.total++;
+                    this.results.total++;
+                    
+                    // Run afterEach hooks in reverse order
+                    await this.runHooks(suite.hooks.afterEach);
+                    await this.runHooks(this.hooks.afterEach);
+                }
+                
+                // Run suite afterAll hooks
+                await this.runHooks(suite.hooks.afterAll);
+                
+            } catch (error) {
+                console.error(`Suite ${suiteName} failed:`, error);
+                suite.results.failed++;
+                this.results.failed++;
+            }
+        }
+        
+        // Run global afterAll hooks last
+        await this.runHooks(this.hooks.afterAll);
+        
+        const duration = Date.now() - startTime;
+        this.printResults(duration);
+    }
+
+    getResults() {
+        return {
+            ...this.results,
+            failures: this.getFailures()
+        };
+    }
+
+    getFailures() {
+        const failures = [];
+        for (const [suiteName, suite] of this.suites) {
+            for (const test of suite.tests) {
+                if (test.result && !test.result.passed) {
+                    failures.push({
+                        suite: suiteName,
+                        test: test.name,
+                        error: test.result.error
+                    });
+                }
+            }
+        }
+        return failures;
+    }
 }
 
 export class Assert {
     static equal(actual, expected, message = '') {
         if (actual !== expected) {
             throw new Error(`${message}\nExpected: ${expected}\nActual: ${actual}`);
+        }
+    }
+
+    static notEqual(actual, expected, message = '') {
+        if (actual === expected) {
+            throw new Error(`${message}\nExpected values to be different\nBoth values: ${actual}`);
         }
     }
 

@@ -1,10 +1,10 @@
 import { TestFramework, Assert } from '../TestFramework.js';
-import { AssetLoader } from '../../services/AssetLoader.js';
-import { WinningLogic } from '../../services/WinningLogic.js';
-import { ReelManager } from '../../services/ReelManager.js';
-import { SpritePool } from '../../services/SpritePool.js';
-import { RenderOptimizer } from '../../services/RenderOptimizer.js';
-import { PerformanceMonitor } from '../../services/PerformanceMonitor.js';
+import { AssetLoader } from '../../src/services/AssetLoader.js';
+import { WinningLogic } from '../../src/services/WinningLogic.js';
+import { ReelManager } from '../../src/services/ReelManager.js';
+import { SpritePool } from '../../src/services/SpritePool.js';
+import { RenderOptimizer } from '../../src/services/RenderOptimizer.js';
+import { PerformanceMonitor } from '../../src/services/PerformanceMonitor.js';
 import { TestData, setupTestEnvironment, MockPIXI } from '../utils/TestMocks.js';
 
 setupTestEnvironment();
@@ -70,6 +70,13 @@ describe('Game Flow Integration Tests', () => {
 
     describe('Spin Cycle Integration', () => {
         beforeEach(async () => {
+            // Ensure all services are initialized (parent beforeEach might not have run)
+            if (!assetLoader) assetLoader = new AssetLoader();
+            if (!spritePool) spritePool = new SpritePool();
+            if (!performanceMonitor) performanceMonitor = new PerformanceMonitor();
+            if (!reelManager) reelManager = new ReelManager();
+            if (!winningLogic) winningLogic = new WinningLogic();
+            
             await assetLoader.loadAssets();
             spritePool.createPool('symbols', () => MockPIXI.createMockSprite(), 15);
             performanceMonitor.startMonitoring();
@@ -135,6 +142,14 @@ describe('Game Flow Integration Tests', () => {
 
     describe('Performance Optimization Integration', () => {
         beforeEach(async () => {
+            // Ensure all services are initialized
+            if (!assetLoader) assetLoader = new AssetLoader();
+            if (!spritePool) spritePool = new SpritePool();
+            if (!renderOptimizer) {
+                mockApp = MockPIXI.createMockApp();
+                renderOptimizer = new RenderOptimizer(mockApp);
+            }
+            
             await assetLoader.loadAssets();
             spritePool.createPool('symbols', () => MockPIXI.createMockSprite(), 15);
         });

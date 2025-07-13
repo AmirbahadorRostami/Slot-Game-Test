@@ -1,5 +1,5 @@
 import { TestFramework, Assert } from '../TestFramework.js';
-import { ReelManager } from '../../services/ReelManager.js';
+import { ReelManager } from '../../src/services/ReelManager.js';
 import { TestData, setupTestEnvironment } from '../utils/TestMocks.js';
 
 setupTestEnvironment();

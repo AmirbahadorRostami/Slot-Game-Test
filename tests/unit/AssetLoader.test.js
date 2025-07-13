@@ -1,11 +1,11 @@
 import { TestFramework, Assert } from '../TestFramework.js';
-import { AssetLoader } from '../../services/AssetLoader.js';
+import { AssetLoader } from '../../src/services/AssetLoader.js';
 import { TestData, setupTestEnvironment, MockPIXI } from '../utils/TestMocks.js';
 
 setupTestEnvironment();
 
 const framework = new TestFramework();
-const { describe, it, beforeEach } = framework;
+const { describe, it, beforeEach, afterEach } = framework;
 
 describe('AssetLoader', () => {
     let assetLoader;
@@ -15,6 +15,11 @@ describe('AssetLoader', () => {
         mockConfig = TestData.getMockGameConfig();
         global.GameConfig = mockConfig;
         assetLoader = new AssetLoader();
+    });
+
+    afterEach(() => {
+        // Reset PIXI mock to default behavior
+        global.PIXI.Texture.from = async (url) => MockPIXI.createMockTexture(url);
     });
 
     describe('initialization', () => {
