@@ -1,14 +1,6 @@
 # Slot Machine Game
 
-A modern 5x3 slot machine game built with PIXI.js, Vite, and comprehensive performance optimizations.
-
-## 🎰 Features
-
-- **Modern Architecture**: Service layer pattern with modular design
-- **Performance Optimized**: Object pooling, render optimization, and performance monitoring
-- **Comprehensive Testing**: Unit tests, integration tests, and custom test framework
-- **Development Tools**: Vite build system, TypeScript support, ESLint, and Prettier
-- **Professional Workflow**: npm scripts, environment management, and build optimization
+A modern 5x3 slot machine game built with Node, PIXI.js, Vite.
 
 ## 🚀 Quick Start
 
@@ -105,15 +97,7 @@ slot-machine-game/
 - Real-time win calculation and display
 - Responsive design that scales with window size
 
-### Technical Features
-- **Service Layer Architecture**: Modular, testable code organization
-- **Object Pooling**: Efficient sprite reuse for performance
-- **Render Optimization**: Culling, batching, and smart updates
-- **Performance Monitoring**: Real-time FPS, memory, and game metrics
-- **Comprehensive Testing**: 70+ test cases covering all systems
-
 ## 🔧 Development
-
 ### Environment Variables
 
 Create a `.env` file based on `.env.example`:
